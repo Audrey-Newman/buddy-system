@@ -15,6 +15,11 @@ LOC_CHOICES= [
     ('Thornton Stacks', 'Thornton Stacks')
     ]
 
+NUM_CHOICES= [
+    ('More than two', 'More than two'),
+    ('Any size', 'Any size')
+    ]
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
     firstname = forms.CharField(label='First name', max_length=254)
@@ -27,9 +32,9 @@ class SignUpForm(UserCreationForm):
         fields = ('username', 'firstname', 'email', 'password1', 'password2', 'gender')
 
 class ReadyForm(forms.ModelForm):
-    dep_location = forms.CharField(label='Departure location', widget=forms.Select(choices=LOC_CHOICES))
-    num_companions = forms.IntegerField(label='Desired number of companions')
-    destination = forms.CharField(label='Departure location', widget=forms.Select(choices=LOC_CHOICES))
+    dep_location = forms.CharField(label='Departure location', widget=forms.Select(choices=LOC_CHOICES), initial='Thornton Stacks')
+    num_companions = forms.CharField(label='Desired number of companions', widget=forms.Select(choices=NUM_CHOICES), initial='Any size')
+    destination = forms.CharField(label='Departure location', widget=forms.Select(choices=LOC_CHOICES), initial='Clark')
 
     class Meta:
         model = User

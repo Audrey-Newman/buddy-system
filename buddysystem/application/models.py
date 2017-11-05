@@ -9,6 +9,7 @@ class Profile(models.Model):
     dep_location = models.TextField(max_length=500, blank=True)
     destination = models.TextField(max_length=500, blank= True)
     firstname = models.TextField(max_length=500, blank= True)
+    score = models.IntegerField(blank=True) # thumbs up count
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
