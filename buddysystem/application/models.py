@@ -6,8 +6,9 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     gender = models.TextField(max_length=500, blank=True)
-    dep_location = models.TextField(max_length=500, blank=True) # contains info about departure location
+    dep_location = models.TextField(max_length=500, blank=True)
     destination = models.TextField(max_length=500, blank= True)
+    firstname = models.TextField(max_length=500, blank= True)
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
