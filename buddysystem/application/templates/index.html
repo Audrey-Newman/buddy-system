@@ -2,8 +2,11 @@
 
 {% block content %}
 <h3>BUDDY SYSTEM</h3>
-<p> <font size="100" color=#d5dee8>I WANT TO WALK</p>
-<p> IN A GROUP OF </p>
-<p> FROM ___ TO ____ .</font></p>
-<a href="crouton.net" class="button">I'm ready to go.</a>
+<form method="post">
+  {% csrf_token %}
+    <p> <font size="100" color=#d5dee8>I WANT TO WALK</p>
+    <p> IN A GROUP OF {{ form.num_companions }}</p>
+    <p> FROM {{ form.dep_location }} TO {{ form.destination }} .</font></p>
+<button type="submit">I'm ready</button>
+</form>
 {% endblock %}

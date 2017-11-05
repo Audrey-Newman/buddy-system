@@ -16,12 +16,18 @@ def index(request):
     """
     View function for home page of site.
     """
-    # Render the HTML template index.html with the data in the context variable
-    return render(
-        request,
-        'index.html',
-        context={},
-    )
+    if request.method == 'POST':
+        form = ReadyForm(request.POST)
+        if form.is_valid():
+            u = request.user
+            u.refresh_from_db()
+            u.profile.dep_location = form.cleaned_data.get('dep_location')
+            u.profile.destination = form.cleaned_data.get('destination')
+            u.save()
+            return redirect('waiting')
+    else:
+        form = ReadyForm()
+    return render(request, 'index.html', {'form': form})
 
 def signup(request):
     if request.method == 'POST':
@@ -43,20 +49,6 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
-
-def ready(request):
-    if request.method == 'POST':
-        form = ReadyForm(request.POST)
-        if form.is_valid():
-            u = request.user
-            u.refresh_from_db()
-            u.profile.dep_location = form.cleaned_data.get('dep_location')
-            u.profile.destination = form.cleaned_data.get('destination')
-            u.save()
-            return redirect('index')
-    else:
-        form = ReadyForm()
-    return render(request, 'ready.html', {'form': form}) # replace ready.html with index once form has been integrated
 
 def waiting(request):
     return render(request, 'waiting.html', {'place': request.user.profile.dep_location, 'profile_list': Profile.objects.filter(dep_location=request.user.profile.dep_location)})
