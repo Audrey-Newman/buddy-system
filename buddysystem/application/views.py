@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm
 from .forms import ReadyForm
 from .models import Profile
+from django.views import generic
 
 # import the logging library
 import logging
@@ -31,6 +32,7 @@ def signup(request):
             user.profile.gender = form.cleaned_data.get('gender')
             user.profile.dep_location = 'none'
             user.profile.destination = 'none'
+            user.profile.firstname = form.cleaned_data.get('firstname')
             user.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
@@ -48,11 +50,15 @@ def ready(request):
         if form.is_valid():
             u = request.user
             u.refresh_from_db()
-            #form.save()
             u.profile.dep_location = form.cleaned_data.get('dep_location')
             u.profile.destination = form.cleaned_data.get('destination')
             u.save()
             return redirect('index')
     else:
         form = ReadyForm()
-    return render(request, 'ready.html', {'form': form}) # replace ready.html with index when sarah's done
+    return render(request, 'ready.html', {'form': form}) # replace ready.html with index once form has been integrated
+
+def waiting(request):
+    return render(request, 'waiting.html', {'place': request.user.profile.dep_location, 'profile_list': Profile.objects.filter(dep_location=request.user.profile.dep_location)})
+    # make this be username and not destination displayed in the list,
+    # somehow connect user.firstname with profile
