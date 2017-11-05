@@ -38,6 +38,7 @@ def signup(request):
             user.profile.gender = form.cleaned_data.get('gender')
             user.profile.dep_location = 'none'
             user.profile.destination = 'none'
+            user.profile.score = '0'
             user.profile.firstname = form.cleaned_data.get('firstname')
             user.save()
             username = form.cleaned_data.get('username')
@@ -50,7 +51,6 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
+
 def waiting(request):
-    return render(request, 'waiting.html', {'place': request.user.profile.dep_location, 'profile_list': Profile.objects.filter(dep_location=request.user.profile.dep_location)})
-    # make this be username and not destination displayed in the list,
-    # somehow connect user.firstname with profile
+    return render(request, 'waiting.html', {'place': request.user.profile.dep_location, 'profile_list': Profile.objects.filter(dep_location=request.user.profile.dep_location).filter(destination=request.user.profile.destination)})
