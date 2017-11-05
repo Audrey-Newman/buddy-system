@@ -3,13 +3,20 @@
 <head>
 <style>
   body {
-    background-color: #536373 !important;}
-  sidebar-nav{
-    margin-top: 200px;
+    background-color: #536373 !important;
+    }
+  .sidebar-nav{
+    margin-top: 50px;
     padding: 0;
     font-size: 75;
     list-style: none;
+    text-align: center;
     color: white;
+  }
+  a:link, a:active, a:hover, a:visited {
+    color: white;
+    }
+
   }
 </style>
   {% block title %}<title>Buddy System</title>{% endblock %}
@@ -32,7 +39,9 @@
       <div class="col-sm-2">
       {% block sidebar %}
       <ul class="sidebar-nav">
-        <img src="https://vectr.com/sarahyang/dGxewJwo.svg?width=120&height=84.65&select=a459UwmAJW,amjyBZb9X,dgz4JEvvU,aMkmj9XSO,c1Cn3wjezB,dhKTL2D96,i66Wgp6lP&source=selection&quality=1">
+        <img src="https://vectr.com/sarahyang/dGxewJwo.svg?width=143&height=101.65&select=d37qgUM4G,a34tiRS5Nb,a9M2oEqCB,h33K6zmZ3M,c53AvIXKME,ad2u9l9SQ,b1amEoFqTW&source=selection&quality=1">
+          <p></p>
+          <p></p>
           <li><a href="{% url 'index' %}">Home</a></li>
           {% if user.is_authenticated %}
           <li>User: {{ user.get_username }}</li>
