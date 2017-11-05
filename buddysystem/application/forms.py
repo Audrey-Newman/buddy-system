@@ -17,7 +17,23 @@ LOC_CHOICES= [
 
 NUM_CHOICES= [
     ('> 2', '> 2'),
-    ('Any size', 'Any size')
+    ('any size', 'any size')
+    ]
+
+MALE_CHOICES= [
+    ('only men', 'only men'),
+    ('anyone', 'anyone')
+    ]
+
+FEMALE_CHOICES= [
+    ('only women', 'only women'),
+    ('anyone', 'anyone')
+    ]
+
+OTHER_CHOICES= [
+    ('only men', 'only men'),
+    ('only women', 'only women'),
+    ('anyone', 'anyone')
     ]
 
 class SignUpForm(UserCreationForm):
@@ -33,9 +49,30 @@ class SignUpForm(UserCreationForm):
 
 class ReadyForm(forms.ModelForm):
     dep_location = forms.CharField(label='Departure location', widget=forms.Select(choices=LOC_CHOICES), initial='Thornton Stacks')
-    num_companions = forms.CharField(label='Desired number of companions', widget=forms.Select(choices=NUM_CHOICES), initial='Any size')
+    num_companions = forms.CharField(label='Desired number of companions', widget=forms.Select(choices=NUM_CHOICES), initial='any size')
     destination = forms.CharField(label='Departure location', widget=forms.Select(choices=LOC_CHOICES), initial='Clark')
 
     class Meta:
         model = User
         fields = ('dep_location', 'num_companions', 'destination')
+
+class MaleForm(forms.ModelForm):
+    companions = forms.CharField(label='Companions', widget=forms.Select(choices=MALE_CHOICES), initial='anyone')
+
+    class Meta:
+        model = User
+        fields = ('companions',)
+
+class FemaleForm(forms.ModelForm):
+    companions = forms.CharField(label='Companions', widget=forms.Select(choices=FEMALE_CHOICES), initial='anyone')
+
+    class Meta:
+        model = User
+        fields = ('companions',)
+
+class OtherForm(forms.ModelForm):
+    companions = forms.CharField(label='Companions', widget=forms.Select(choices=OTHER_CHOICES), initial='anyone')
+
+    class Meta:
+        model = User
+        fields = ('companions',)
