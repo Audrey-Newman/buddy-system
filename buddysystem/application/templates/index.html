@@ -4,12 +4,24 @@
 {% if user.is_authenticated %}
 <h5></h5>
 <p></p>
+
 <form method="post">
   {% csrf_token %}
-      <p style="font-size:75px; color:#d5dee8;">I want to walk</p>
-    <p style="font-size:75px; color:#d5dee8;"> in a group of <span style="color: black;">{{ form.num_companions }}</span></p>
-    <p style="font-size:75px; color:#d5dee8;"> from <span style="color: black; background-color: black;">{{ form.dep_location }}</span> </p>
-    <p style="font-size:75px; color:#d5dee8;"> to <span style="color: black;">{{ form.destination }}</span></p>
+    <p style="font-size:60px; color:#d5dee8;">I want to walk</p>
+    <p style="font-size:60px; color:#dfdee8;"> with <span style="color: black;">
+      {% if user.profile.gender == "Female" %}
+      {{ femaleform.companions }}
+      {% endif %}
+      {% if user.profile.gender == "Male" %}
+      {{ maleform.companions }}
+      {% endif %}
+      {% if user.profile.gender == "Other" %}
+      {{ otherform.companions }}
+      {% endif %}
+</span></p>
+    <p style="font-size:60px; color:#d5dee8;"> in a group of <span style="color: black;">{{ form.num_companions }}</span></p>
+    <p style="font-size:60px; color:#d5dee8;"> from <span style="color: black; background-color: black;">{{ form.dep_location }}</span> </p>
+    <p style="font-size:60px; color:#d5dee8;"> to <span style="color: black;">{{ form.destination }}</span></p>
 <button style="font-size: 32px; text-align: center" type="submit">I'm ready!</button>
 </form>
 {% else %}
