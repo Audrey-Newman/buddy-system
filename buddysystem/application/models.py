@@ -10,6 +10,7 @@ class Profile(models.Model):
     destination = models.TextField(max_length=500, blank= True)
     firstname = models.TextField(max_length=500, blank= True)
     score = models.IntegerField(default=0, blank=True) # thumbs up count
+    num_companions = models.CharField(max_length=254, blank = True)
     desired_companions = models.TextField(max_length=500, blank= True) # men, women, anyone
 
 @receiver(post_save, sender=User)

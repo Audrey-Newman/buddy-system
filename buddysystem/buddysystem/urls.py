@@ -31,6 +31,7 @@ urlpatterns += [
 from django.views.generic import RedirectView
 urlpatterns += [
     url(r'^$', RedirectView.as_view(url='/application/', permanent=True)),
+    url(r'^accounts/login/application/index$', RedirectView.as_view(url='/application/', permanent=True))
 ]
 
 # Use static() to add url mapping to serve static files during development (only)

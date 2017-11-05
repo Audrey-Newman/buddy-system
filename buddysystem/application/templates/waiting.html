@@ -2,16 +2,20 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h3> </h3>
+<h3></h3>
 <p> <font size="80", color="#98a9bc">Waiting at <span style="color:#d5dee8">{{ place }}</span>:</font></p>
 {% for prof in profile_list %}
 <ul>
   <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-  {{prof.firstname}} </button>
+  {{prof.firstname}} ({{prof.score}}) </button>
 </ul>
 
 {% endfor %}
-<a href="{% url 'index' %}">We're leaving</a> <!-- change this to link to onourway.html once it's created -->
+{% if conditions_met == True %}
+<a href="{% url 'ontheway' %}">We're leaving</a> <!-- change this to link to onourway.html once it's created -->
+{% else %}
+<a href="{% url 'goodnight' %}">I'm done waiting, take me off the waiting list.</a>
+{% endif %}
 {% else %}
 <p style="font-size:75px; color:#d5dee8;">Log in or sign up </p>
 <p style="font-size:75px; color:#d5dee8;">to walk home with a friend.</p>

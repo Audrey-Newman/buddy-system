@@ -20,32 +20,37 @@ def index(request):
     View function for home page of site.
     """
     if request.method == 'POST':
-        ready_form = ReadyForm(request.POST)
-        male_form = MaleForm(request.POST)
+        req = request.POST
+        ready_form = ReadyForm(req)
+        male_form = MaleForm(req)
+        female_form = FemaleForm(req)
+        other_form = OtherForm(req)
+        u = request.user
+
+        male_is_valid = male_form.is_valid()
+
         if ready_form.is_valid():
-            u = request.user
             u.refresh_from_db()
             u.profile.dep_location = ready_form.cleaned_data.get('dep_location')
             u.profile.destination = ready_form.cleaned_data.get('destination')
+            u.profile.num_companions = ready_form.cleaned_data.get('num_companions')
             u.save()
-            return redirect('waiting')
+
         if male_form.is_valid():
-            u_m = request.user
-            u_m.refresh_from_db()
-            u_m.profile.desired_companions = male_form.cleaned_data.get('companions')
-            u_m.save()
-            return redirect('waiting')
+            u.refresh_from_db()
+            u.profile.desired_companions = male_form.cleaned_data.get('companions')
+            u.save()
+
         if female_form.is_valid():
-            u_f = request.user
-            u_f.refresh_from_db()
-            u_f.profile.desired_companions = female_form.cleaned_data.get('companions')
-            u_f.save()
-            return redirect('waiting')
+            u.refresh_from_db()
+            u.profile.desired_companions = female_form.cleaned_data.get('companions')
+            u.save()
+
         if other_form.is_valid():
-            u_o = request.user
-            u_o.refresh_from_db()
-            u_o.profile.desired_companions = other_form.cleaned_data.get('companions')
-            u_o.save()
+            u.refresh_from_db()
+            u.profile.desired_companions = other_form.cleaned_data.get('companions')
+            u.save()
+
             return redirect('waiting')
 
     else:
@@ -77,9 +82,36 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
-
 def waiting(request):
     u = request.user
+    u.refresh_from_db()
+    # check if conditions are met
+    profile_list = Profile.objects.filter(dep_location=u.profile.dep_location).filter(destination=u.profile.destination)
+    profile_list_women = profile_list.filter(gender='Female')
+    profile_list_men = profile_list.filter(gender='Male')
+
+    if(u.profile.desired_companions == 'only women'):
+        profile_list = profile_list_women
+    else:
+        profile_list = profile_list_men
+
+    conditions_met = True
+    if(u.profile.num_companions == '> 2' and (profile_list.__len__() <= 2)):
+        conditions_met = False
+
     if u.is_authenticated():
-        return render(request, 'waiting.html', {'place': request.user.profile.dep_location, 'profile_list': Profile.objects.filter(dep_location=request.user.profile.dep_location).filter(destination=request.user.profile.destination)})
-    return render(request, 'waiting.html', {'place': "nothing", 'profile_list': "nothing"})
+        return render(request, 'waiting.html', {'place': request.user.profile.dep_location,
+                                'profile_list': profile_list,
+                                'conditions_met': conditions_met})
+    return render(request, 'waiting.html', {})
+
+def goodnight(request):
+    u = request.user
+    u.refresh_from_db()
+    u.profile.dep_location = "none"
+    u.profile.destination = "none"
+
+    return render(request, 'goodnight.html', {})
+
+def ontheway(request):
+    return render(request, 'ontheway.html', {})
