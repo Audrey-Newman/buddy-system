@@ -53,4 +53,7 @@ def signup(request):
 
 
 def waiting(request):
-    return render(request, 'waiting.html', {'place': request.user.profile.dep_location, 'profile_list': Profile.objects.filter(dep_location=request.user.profile.dep_location).filter(destination=request.user.profile.destination)})
+    u = request.user
+    if u.is_authenticated():
+        return render(request, 'waiting.html', {'place': request.user.profile.dep_location, 'profile_list': Profile.objects.filter(dep_location=request.user.profile.dep_location).filter(destination=request.user.profile.destination)})
+    return render(request, 'waiting.html', {'place': "nothing", 'profile_list': "nothing"})

@@ -16,7 +16,7 @@ LOC_CHOICES= [
     ]
 
 NUM_CHOICES= [
-    ('More than two', 'More than two'),
+    ('> 2', '> 2'),
     ('Any size', 'Any size')
     ]
 
