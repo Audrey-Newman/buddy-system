@@ -3,7 +3,7 @@
 {% block content %}
 {% if user.is_authenticated %}
 <h3> </h3>
-<p> <font size="80", color="#98a9bc">Waiting at <span style="color:#d5dee8">{{ place }}</span>.</font></p>
+<p> <font size="80", color="#98a9bc">Waiting at <span style="color:#d5dee8">{{ place }}</span>:</font></p>
 {% for prof in profile_list %}
 <ul>
   <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
