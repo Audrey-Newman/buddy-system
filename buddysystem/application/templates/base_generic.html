@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+  <style>
+    body {
+      background-color: #536373
+          }
+  </style>
   {% block title %}<title>Buddy System</title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -15,13 +20,13 @@
 </head>
 
 <body>
-
   <div class="container-fluid">
 
     <div class="row">
       <div class="col-sm-2">
       {% block sidebar %}
       <ul class="sidebar-nav">
+        <img src="https://vectr.com/sarahyang/dGxewJwo.svg?width=120&height=84.65&select=a459UwmAJW,amjyBZb9X,dgz4JEvvU,aMkmj9XSO,c1Cn3wjezB,dhKTL2D96,i66Wgp6lP&source=selection&quality=1">
           <li><a href="{% url 'index' %}">Home</a></li>
           {% if user.is_authenticated %}
           <li>User: {{ user.get_username }}</li>
@@ -39,5 +44,7 @@
     </div>
 
   </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
