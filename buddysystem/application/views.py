@@ -3,6 +3,9 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
 from .forms import ReadyForm
+from .forms import MaleForm
+from .forms import FemaleForm
+from .forms import OtherForm
 from .models import Profile
 from django.views import generic
 
@@ -17,17 +20,40 @@ def index(request):
     View function for home page of site.
     """
     if request.method == 'POST':
-        form = ReadyForm(request.POST)
-        if form.is_valid():
+        ready_form = ReadyForm(request.POST)
+        male_form = MaleForm(request.POST)
+        if ready_form.is_valid():
             u = request.user
             u.refresh_from_db()
-            u.profile.dep_location = form.cleaned_data.get('dep_location')
-            u.profile.destination = form.cleaned_data.get('destination')
+            u.profile.dep_location = ready_form.cleaned_data.get('dep_location')
+            u.profile.destination = ready_form.cleaned_data.get('destination')
             u.save()
             return redirect('waiting')
+        if male_form.is_valid():
+            u_m = request.user
+            u_m.refresh_from_db()
+            u_m.profile.desired_companions = male_form.cleaned_data.get('companions')
+            u_m.save()
+            return redirect('waiting')
+        if female_form.is_valid():
+            u_f = request.user
+            u_f.refresh_from_db()
+            u_f.profile.desired_companions = female_form.cleaned_data.get('companions')
+            u_f.save()
+            return redirect('waiting')
+        if other_form.is_valid():
+            u_o = request.user
+            u_o.refresh_from_db()
+            u_o.profile.desired_companions = other_form.cleaned_data.get('companions')
+            u_o.save()
+            return redirect('waiting')
+
     else:
-        form = ReadyForm()
-    return render(request, 'index.html', {'form': form})
+        ready_form = ReadyForm()
+        male_form = MaleForm()
+        female_form = FemaleForm()
+        other_form = OtherForm()
+    return render(request, 'index.html', {'form': ready_form, 'femaleform': female_form, 'maleform': male_form, 'otherform': other_form})
 
 def signup(request):
     if request.method == 'POST':
