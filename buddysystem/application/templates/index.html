@@ -1,7 +1,9 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+{% if user.is_authenticated %}
 <h5></h5>
+<p></p>
 <form method="post">
   {% csrf_token %}
       <p style="font-size:75px; color:#d5dee8;">I want to walk</p>
@@ -10,4 +12,8 @@
     <p style="font-size:75px; color:#d5dee8;"> to <span style="color: black;">{{ form.destination }}</span></p>
 <button style="font-size: 32px; text-align: center" type="submit">I'm ready!</button>
 </form>
+{% else %}
+<p style="font-size:75px; color:#d5dee8;">Log in or sign up </p>
+<p style="font-size:75px; color:#d5dee8;">to walk home with a friend.</p>
+{% endif %}
 {% endblock %}
