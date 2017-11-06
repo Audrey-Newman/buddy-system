@@ -87,12 +87,14 @@ def waiting(request):
     u.refresh_from_db()
     # check if conditions are met
     profile_list = Profile.objects.filter(dep_location=u.profile.dep_location).filter(destination=u.profile.destination)
+    for prof in profile_list:
+        logger.error(prof.dep_location)
     profile_list_women = profile_list.filter(gender='Female')
     profile_list_men = profile_list.filter(gender='Male')
 
     if(u.profile.desired_companions == 'only women'):
         profile_list = profile_list_women
-    else:
+    elif(u.profile.desired_companions == 'only men'):
         profile_list = profile_list_men
 
     conditions_met = True
@@ -110,8 +112,19 @@ def goodnight(request):
     u.refresh_from_db()
     u.profile.dep_location = "none"
     u.profile.destination = "none"
+    u.save()
 
     return render(request, 'goodnight.html', {})
 
 def ontheway(request):
+    u = request.user
+    u.refresh_from_db()
+    u.profile.dep_location = "none"
+    u.profile.destination = "none"
+    u.save()
+
+    profile_list = Profile.objects.all()
+    for prof in profile_list:
+        logger.error(prof.dep_location)
+
     return render(request, 'ontheway.html', {})
